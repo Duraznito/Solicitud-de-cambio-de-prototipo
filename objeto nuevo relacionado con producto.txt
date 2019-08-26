@@ -1,0 +1,95 @@
+>>Objeto
+===================================
+Solicitud de Cambio de Prototipo
+solicitud_de_cambio_de_prototipo__c
+
+>>Campos
+===================================
+Autorizado	        Autorizado__c	        Casilla		                Falso	
+Correo Electrónico	Correo_Electr_nico__c	Fórmula (Texto)		        Falso	
+Creado por	        CreatedById	        Buscar(Usuario)		        Falso	
+Desarrollo	        Desarrollo__c	        Fórmula (Texto)		        Falso	
+Desarrollo	        Desarroll_o__c	        Buscar(Desarrollo)		Verdadero	
+Fecha de solicitud	Fecha_de_solicitud__c	Fórmula (Fecha)		        Falso	
+Motivo	                Moti__c	                Área de texto(255)		Falso	
+Número de Solicitud	Name	                Numeración automática		Verdadero	
+Producto relacionado	relacion__c	        Buscar(Producto)		Verdadero	
+Propietario	        OwnerId	                Buscar(Usuario,Grupo)		Verdadero	
+Prototipo solicitado	Prototipo_solicitado__c	Buscar(Prototipo)		Verdadero	
+Ref / Prototipo actual	Ref_Prototipo_actual__c	Fórmula (Texto)		        Falso	
+Solicitante	        Solicitante__c	        Fórmula (Texto)		                Falso	
+Última modificación por	LastModifiedById	Buscar(Usuario)
+
+>>Clase Apex
+===================================
+public with sharing class Sol_cam_PrototipoPDFController {
+
+      public String SolPrototiposId {get;set;}
+      public solicitud_de_cambio_de_prototipo__c SolPrototipos{get;set;}
+  
+   
+public Sol_cam_PrototipoPDFController(ApexPages.StandardController stdController){
+    
+    solicitud_de_cambio_de_prototipo__c prototipo= (solicitud_de_cambio_de_prototipo__c)stdController.getRecord();          
+    solPrototiposid = prototipo.Id;
+
+  SolPrototipos= [SELECT 
+  
+              Id,
+              Autorizado__c,
+              Correo_Electr_nico__c,    
+              CreatedById,
+              Desarrollo__c,
+              Desarroll_o__c,
+              Fecha_de_solicitud__c,
+              Moti__c,
+              Name,
+              relacion__c,
+              OwnerId,
+              Prototipo_solicitado__c,
+              Ref_Prototipo_actual__c,
+              Solicitante__c     
+
+                  
+              FROM solicitud_de_cambio_de_prototipo__c
+              WHERE Id =: SolPrototiposId 
+              ];
+   
+  
+}
+
+}
+
+>>Clase test
+===================================
+@isTest
+public class Sol_cam_PrototipoPDFController_test {
+    
+    @isTest static void controllerConstructor(){
+        
+        solicitud_de_cambio_de_prototipo__c nuevo = new solicitud_de_cambio_de_prototipo__c(Moti__c='TPJ DMM');
+        insert nuevo;
+               
+        Apexpages.StandardController cm = new Apexpages.standardController(nuevo);        
+        Sol_cam_PrototipoPDFController controller = new Sol_cam_PrototipoPDFController(cm);
+    }
+}
+
+
+>>boton a tu objeto
+================================
+
+>>conjunto de cambios salientes
+================================
+En sandbox elije a la clase principal y la clase test
+y mandalas a produccion
+
+>>conjunto de cambios entrantes
+===============================
+En Dessarrollo acepta los cambios agregalos a una prueba 
+y cumple el 75% aplica los cambios en hr que el objeto no sea utilizado
+
+
+
+
+
